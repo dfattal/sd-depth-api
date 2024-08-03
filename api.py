@@ -1,12 +1,15 @@
 from flask import Flask, request, jsonify
-from diffusers import StableDiffusionControlNetPipeline
+from diffusers import ControlNetModel, StableDiffusionControlNetPipeline
 import torch
+
 
 app = Flask(__name__)
 
 # Load the model
-model_id = "diffusers/controlnet-depth-sdxl-1.0"
-pipe = StableDiffusionControlNetPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+controlnet = ControlNetModel.from_pretrained("diffusers/controlnet-depth-sdxl-1.0")
+pipe = StableDiffusionControlNetPipeline.from_pretrained(
+	"stabilityai/stable-diffusion-xl-base-1.0", controlnet=controlnet
+)
 pipe.to("cuda")
 
 
