@@ -20,10 +20,7 @@ app.get('/', (req, res) => {
 app.post('/process', upload.single('depthImage'), (req, res) => {
   const depthImagePath = req.file.path;
 
-  // Use the Python interpreter from the virtual environment
-  const pythonInterpreter = path.join(__dirname, 'myenv/bin/python');
-
-  execFile(pythonInterpreter, ['process_image.py', depthImagePath], (error, stdout, stderr) => {
+  execFile('python3', ['process_image.py', depthImagePath], (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
       console.error(`stderr: ${stderr}`);
