@@ -40,20 +40,31 @@ app.post('/process', upload.single('depthImage'), (req, res) => {
       }
 
       console.log(`Processed image found: ${outputPath}`);
-      res.sendFile(outputPath, (err) => {
-        if (err) {
-          console.error(`sendFile error: ${err}`);
-          return res.status(500).send('Error sending image');
+
+      // Ensure the file is completely written before sending
+      fs.readFile(outputPath, (readErr, data) => {
+        if (readErr) {
+          console.error(`Error reading file: ${readErr}`);
+          return res.status(500).send('Error reading image file');
         }
 
-        console.log('Image sent successfully');
+        console.log(`File size: ${data.length} bytes`);
 
-        // Cleanup files
-        fs.unlink(depthImagePath, (unlinkErr) => {
-          if (unlinkErr) console.error(`Error deleting temp depth image: ${unlinkErr}`);
-        });
-        fs.unlink(outputPath, (unlinkErr) => {
-          if (unlinkErr) console.error(`Error deleting output image: ${unlinkErr}`);
+        res.sendFile(outputPath, (err) => {
+          if (err) {
+            console.error(`sendFile error: ${err}`);
+            return res.status(500).send('Error sending image');
+          }
+
+          console.log('Image sent successfully');
+
+          // Cleanup files
+          fs.unlink(depthImagePath, (unlinkErr) => {
+            if (unlinkErr) console.error(`Error deleting temp depth image: ${unlinkErr}`);
+          });
+          fs.unlink(outputPath, (unlinkErr) => {
+            if (unlinkErr) console.error(`Error deleting output image: ${unlinkErr}`);
+          });
         });
       });
     });
@@ -63,6 +74,11 @@ app.post('/process', upload.single('depthImage'), (req, res) => {
 app.get('/test', (req, res) => {
   const testFilePath = path.join(__dirname, 'test.jpg');
 
+  // Create a dummy test file if it doesn't exist
+  if (!fs.existsSync(testFilePath)) {
+    fs.writeFileSync(testFilePath, 'dummy content');
+  }
+
   res.sendFile(testFilePath, (err) => {
     if (err) {
       console.error(`sendFile error: ${err}`);
@@ -70,5 +86,10 @@ app.get('/test', (req, res) => {
     }
 
     console.log('Test file sent successfully');
+
+    // Cleanup test file
+    fs.unlink(testFilePath, (unlinkErr) => {
+      if (unlinkErr) console.error(`Error deleting test file: ${unlinkErr}`);
+    });
   });
 });
