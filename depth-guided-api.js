@@ -1,4 +1,5 @@
 //depth-guided-api.js
+// To activate pre-built pytorch environment, run: 'source activate pytorch'
 
 const express = require('express');
 const multer = require('multer');
@@ -72,7 +73,7 @@ app.post('/process', upload.single('depthImage'), (req, res) => {
 });
 
 app.get('/test', (req, res) => {
-  const testFilePath = path.join(__dirname, 'test.jpg');
+  const testFilePath = path.join(__dirname, 'output.jpg'); //test.jpg
 
   // Create a dummy test file if it doesn't exist
   if (!fs.existsSync(testFilePath)) {
