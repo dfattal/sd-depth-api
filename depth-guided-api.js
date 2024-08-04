@@ -59,3 +59,16 @@ app.post('/process', upload.single('depthImage'), (req, res) => {
     });
   });
 });
+
+app.get('/test', (req, res) => {
+  const testFilePath = path.join(__dirname, 'test.jpg');
+
+  res.sendFile(testFilePath, (err) => {
+    if (err) {
+      console.error(`sendFile error: ${err}`);
+      return res.status(500).send('Error sending image');
+    }
+
+    console.log('Test file sent successfully');
+  });
+});
