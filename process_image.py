@@ -1,15 +1,15 @@
+# process_image.py
+import sys
 import torch
-from fastapi import FastAPI, File, UploadFile
-from fastapi.responses import FileResponse
 from transformers import DPTFeatureExtractor, DPTForDepthEstimation
 from diffusers import ControlNetModel, StableDiffusionXLControlNetPipeline, AutoencoderKL
+from diffusers.utils import load_image
 from PIL import Image
 import io
 
-app = FastAPI()
-
+# Load models
 vae = AutoencoderKL.from_pretrained("madebyollin/sdxl-vae-fp16-fix", torch_dtype=torch.float16)
-controlnet = ControlNetModel.from_pretrained("lllyasviel/sd-controlnet-depth", torch_dtype=torch.float16)
+controlnet = ControlNetModel.from_pretrained("lllyasviel/control_v1p_sd15_depth", torch_dtype=torch.float16)
 pipe = StableDiffusionXLControlNetPipeline.from_pretrained(
     "stabilityai/stable-diffusion-xl-base-1.0",
     controlnet=controlnet,
@@ -20,23 +20,19 @@ pipe = StableDiffusionXLControlNetPipeline.from_pretrained(
 )
 pipe.enable_model_cpu_offload()
 
-@app.post("/generate-image/")
-async def generate_image(file: UploadFile = File(...), prompt: str = "default prompt"):
-    contents = await file.read()
-    depth_image = Image.open(io.BytesIO(contents)).convert("RGB")
+def process_image(depth_image_bytes):
+    depth_image = Image.open(io.BytesIO(depth_image_bytes)).convert("RGB")
     controlnet_conditioning_scale = 0.5
 
+    prompt = "stormtrooper lecture, photorealistic"
     images = pipe(
         prompt, image=depth_image, num_inference_steps=30, controlnet_conditioning_scale=controlnet_conditioning_scale,
     ).images
-
-    output_image = images[0]
-    output_buffer = io.BytesIO()
-    output_image.save(output_buffer, format="JPEG")
-    output_buffer.seek(0)
-
-    return FileResponse(output_buffer, media_type="image/jpeg")
+    return images[0]
 
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    depth_image_path = sys.argv[1]
+    with open(depth_image_path, "rb") as f:
+        depth_image_bytes = f.read()
+    output_image = process_image(depth_image_bytes)
+    output_image.save("output.jpg")
