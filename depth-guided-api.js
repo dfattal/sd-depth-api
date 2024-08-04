@@ -73,7 +73,7 @@ app.post('/process', upload.single('depthImage'), (req, res) => {
 });
 
 app.get('/test', (req, res) => {
-  const testFilePath = path.join(__dirname, 'output.jpg'); //test.jpg
+  const testFilePath = path.join(__dirname, 'test.jpg'); //test.jpg
 
   // Create a dummy test file if it doesn't exist
   if (!fs.existsSync(testFilePath)) {
