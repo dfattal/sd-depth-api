@@ -9,21 +9,25 @@ const path = require('path');
 const app = express();
 const upload = multer({ dest: 'uploads/' });
 
-app.listen(5001, () => console.log("Api is running on port 5001"));
+app.listen(5001, () => console.log("API is running on port 5001"));
 
 app.get('/', (req, res) => {
   console.log("Hello, from the root endpoint!");
   res.send("Hello, from the root endpoint!");
 });
 
+// POST endpoint to handle image processing
 app.post('/process', upload.single('depthImage'), (req, res) => {
   const depthImagePath = req.file.path;
 
   execFile('python3', ['process_image.py', depthImagePath], (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
+      console.error(`stderr: ${stderr}`);
       return res.status(500).send('Error processing image');
     }
+
+    console.log(`stdout: ${stdout}`);
 
     const outputPath = path.join(__dirname, 'output.jpg');
     res.sendFile(outputPath, {}, (err) => {
