@@ -16,27 +16,37 @@ app.get('/', (req, res) => {
   res.send("Hello, from the root endpoint!");
 });
 
-// POST endpoint to handle image processing
 app.post('/process', upload.single('depthImage'), (req, res) => {
   const depthImagePath = req.file.path;
+  const outputPath = path.join(__dirname, 'output.jpg');
 
   execFile('python3', ['process_image.py', depthImagePath], (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
-      console.error(`stderr: ${stderr}`);
       return res.status(500).send('Error processing image');
     }
 
-    console.log(`stdout: ${stdout}`);
-
-    const outputPath = path.join(__dirname, 'output.jpg');
-    res.sendFile(outputPath, {}, (err) => {
+    // Ensure the file exists before attempting to send it
+    fs.access(outputPath, fs.constants.F_OK, (err) => {
       if (err) {
-        console.error(`sendFile error: ${err}`);
-        res.status(500).send('Error sending image');
+        console.error(`File not found: ${outputPath}`);
+        return res.status(500).send('Processed image not found');
       }
-      fs.unlinkSync(depthImagePath); // Cleanup uploaded depth image
-      fs.unlinkSync(outputPath); // Cleanup generated output image
+
+      res.sendFile(outputPath, (err) => {
+        if (err) {
+          console.error(`sendFile error: ${err}`);
+          return res.status(500).send('Error sending image');
+        }
+
+        // Cleanup files
+        fs.unlink(depthImagePath, (unlinkErr) => {
+          if (unlinkErr) console.error(`Error deleting temp depth image: ${unlinkErr}`);
+        });
+        fs.unlink(outputPath, (unlinkErr) => {
+          if (unlinkErr) console.error(`Error deleting output image: ${unlinkErr}`);
+        });
+      });
     });
   });
 });
