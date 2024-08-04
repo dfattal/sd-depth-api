@@ -9,7 +9,7 @@ import io
 
 # Load models
 vae = AutoencoderKL.from_pretrained("madebyollin/sdxl-vae-fp16-fix", torch_dtype=torch.float16)
-controlnet = ControlNetModel.from_pretrained("lllyasviel/control_v1p_sd15_depth", torch_dtype=torch.float16)
+controlnet = ControlNetModel.from_pretrained("diffusers/controlnet-depth-sdxl-1.0", torch_dtype=torch.float16)
 pipe = StableDiffusionXLControlNetPipeline.from_pretrained(
     "stabilityai/stable-diffusion-xl-base-1.0",
     controlnet=controlnet,
