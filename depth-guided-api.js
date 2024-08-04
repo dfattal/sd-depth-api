@@ -51,13 +51,27 @@ app.post('/process', upload.single('depthImage'), (req, res) => {
 
         console.log(`File size: ${data.length} bytes`);
 
-        res.sendFile(outputPath, (err) => {
-          if (err) {
-            console.error(`sendFile error: ${err}`);
-            return res.status(500).send('Error sending image');
-          }
+//        res.sendFile(outputPath, (err) => {
+//          if (err) {
+//            console.error(`sendFile error: ${err}`);
+//            return res.status(500).send('Error sending image');
+//          }
+//
+//          console.log('Image sent successfully');
 
-          console.log('Image sent successfully');
+      // Stream the file to ensure it is sent completely
+      const readStream = fs.createReadStream(outputPath);
+      readStream.on('open', () => {
+        console.log('Streaming the file...');
+        res.setHeader('Content-Type', 'image/jpeg');
+        readStream.pipe(res);
+      });
+      readStream.on('error', (err) => {
+        console.error(`Stream error: ${err}`);
+        res.status(500).send('Error sending image');
+      });
+      readStream.on('close', () => {
+      console.log('Image sent successfully');
 
           // Cleanup files
           fs.unlink(depthImagePath, (unlinkErr) => {
