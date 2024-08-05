@@ -1,7 +1,6 @@
 # process_image.py
 import sys
 import torch
-# from transformers import DPTFeatureExtractor, DPTForDepthEstimation
 from diffusers import ControlNetModel, StableDiffusionXLControlNetPipeline, AutoencoderKL
 from diffusers.utils import load_image
 from PIL import Image
