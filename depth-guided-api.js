@@ -51,6 +51,8 @@ app.post('/process', upload.single('depthImage'), (req, res) => {
 
   console.log('Received POST request');
   console.log(`Depth image uploaded to: ${depthImagePath}`);
+  sendEventToClients('Received POST request');
+  sendEventToClients(`Depth image uploaded to: ${depthImagePath}`);
 
   const pythonProcess = spawn('python3', ['process_image.py', depthImagePath]);
 
@@ -83,6 +85,7 @@ app.post('/process', upload.single('depthImage'), (req, res) => {
       }
 
       console.log(`Processed image found: ${outputPath}`);
+      sendEventToClients(`Processed image found: ${outputPath}`);
 
       // Ensure the file is completely written before sending
       fs.readFile(outputPath, (readErr, data) => {
