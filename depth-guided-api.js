@@ -59,20 +59,6 @@ app.post('/process', upload.single('depthImage'), (req, res) => {
 
           console.log('Image sent successfully');
 
-//      // Stream the file to ensure it is sent completely
-//      const readStream = fs.createReadStream(outputPath);
-//      readStream.on('open', () => {
-//        console.log('Streaming the file...');
-//        res.setHeader('Content-Type', 'image/jpeg');
-//        readStream.pipe(res);
-//      });
-//      readStream.on('error', (err) => {
-//        console.error(`Stream error: ${err}`);
-//        res.status(500).send('Error sending image');
-//      });
-//      readStream.on('close', () => {
-//      console.log('Image sent successfully');
-
           // Cleanup files
           fs.unlink(depthImagePath, (unlinkErr) => {
             if (unlinkErr) console.error(`Error deleting temp depth image: ${unlinkErr}`);
