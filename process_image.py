@@ -2,9 +2,12 @@
 import sys
 import torch
 from diffusers import ControlNetModel, StableDiffusionXLControlNetPipeline, AutoencoderKL
-from diffusers.utils import load_image
+# from diffusers.utils import load_image
 from PIL import Image
 import io
+
+# Define the cache directory
+cache_dir = "models"
 
 # Load models
 print("Loading models...")
@@ -17,6 +20,7 @@ pipe = StableDiffusionXLControlNetPipeline.from_pretrained(
     variant="fp16",
     use_safetensors=True,
     torch_dtype=torch.float16,
+    cache_dir=cache_dir
 )
 pipe.enable_model_cpu_offload()
 print("Models loaded successfully")
