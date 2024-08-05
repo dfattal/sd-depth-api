@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="157e0ab7-da63-4b8c-985e-47f8d5224084" name="Changes" comment="reverted formatting issue fix attempts">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="157e0ab7-da63-4b8c-985e-47f8d5224084" name="Changes" comment="added CORS headers" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -279,7 +277,14 @@
       <option name="project" value="LOCAL" />
       <updated>1722827340261</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="added CORS headers">
+      <created>1722828212555</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1722828212555</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -294,7 +299,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="created depth-guided-api.js" />
     <MESSAGE value="debugging running the python script" />
     <MESSAGE value="make sure the node app runs python from myenv/bin/python" />
     <MESSAGE value="updated hugginface endpoint to controlnet-depth-sdxl-1.0" />
@@ -319,6 +323,7 @@
     <MESSAGE value="added cached dir for models" />
     <MESSAGE value="returns continuous logs to client via http" />
     <MESSAGE value="reverted formatting issue fix attempts" />
-    <option name="LAST_COMMIT_MESSAGE" value="reverted formatting issue fix attempts" />
+    <MESSAGE value="added CORS headers" />
+    <option name="LAST_COMMIT_MESSAGE" value="added CORS headers" />
   </component>
 </project>

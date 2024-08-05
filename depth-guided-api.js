@@ -6,6 +6,7 @@ const multer = require('multer');
 const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors'); // Import the cors package
 
 const app = express();
 const upload = multer({ dest: 'uploads/' });
