@@ -10,6 +10,7 @@ const path = require('path');
 const app = express();
 const upload = multer({ dest: 'uploads/' });
 
+app.use(cors()); // Use the cors middleware
 app.use(express.static('public')); // For serving static files like HTML
 
 // SSE endpoint for continuous updates

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="157e0ab7-da63-4b8c-985e-47f8d5224084" name="Changes" comment="returns continuous logs to client via http" />
+    <list default="true" id="157e0ab7-da63-4b8c-985e-47f8d5224084" name="Changes" comment="reverted formatting issue fix attempts">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -270,7 +272,14 @@
       <option name="project" value="LOCAL" />
       <updated>1722825679907</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="reverted formatting issue fix attempts">
+      <created>1722827340261</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1722827340261</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -285,7 +294,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updated python script to run as sub process of node.js" />
     <MESSAGE value="created depth-guided-api.js" />
     <MESSAGE value="debugging running the python script" />
     <MESSAGE value="make sure the node app runs python from myenv/bin/python" />
@@ -310,6 +318,7 @@
     <MESSAGE value="tried continuous python script output logging" />
     <MESSAGE value="added cached dir for models" />
     <MESSAGE value="returns continuous logs to client via http" />
-    <option name="LAST_COMMIT_MESSAGE" value="returns continuous logs to client via http" />
+    <MESSAGE value="reverted formatting issue fix attempts" />
+    <option name="LAST_COMMIT_MESSAGE" value="reverted formatting issue fix attempts" />
   </component>
 </project>
