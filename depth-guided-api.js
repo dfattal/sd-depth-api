@@ -7,16 +7,9 @@ const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors'); // Import the cors package
-const https = require('https');
 
 const app = express();
 const upload = multer({ dest: 'uploads/' });
-
-// SSL certificate and key paths
-const options = {
-  key: fs.readFileSync('/home/ec2-user/certs/private-key.pem'),
-  cert: fs.readFileSync('/home/ec2-user/certs/certificate.pem')
-};
 
 app.use(cors()); // Use the cors middleware
 app.use(express.static('public')); // For serving static files like HTML
@@ -45,10 +38,7 @@ function sendEventToClients(message) {
   });
 }
 
-//app.listen(5001, () => console.log("API is running on port 5001"));
-https.createServer(options, app).listen(5001, () => {
-  console.log("API is running on port 5001");
-});
+app.listen(5001, () => console.log("API is running on port 5001"));
 
 app.get('/', (req, res) => {
   console.log("Hello, from the root endpoint!");
