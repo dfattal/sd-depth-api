@@ -53,20 +53,20 @@ app.post('/process', upload.single('depthImage'), (req, res) => {
   const pythonProcess = spawn('python3', ['process_image.py', depthImagePath]);
 
   pythonProcess.stdout.on('data', (data) => {
-    const message = `stdout: ${data}`;
-    console.log(message);
+    const message = Buffer.from(data).toString('base64');
+    console.log(`stdout: ${data}`);
     sendEventToClients(message);
   });
 
   pythonProcess.stderr.on('data', (data) => {
-    const message = `stderr: ${data}`;
-    console.error(message);
+    const message = Buffer.from(data).toString('base64');
+    console.error(`stderr: ${data}`);
     sendEventToClients(message);
   });
 
   pythonProcess.on('close', (code) => {
     if (code !== 0) {
-      const message = `Python script exited with code ${code}`;
+      const message = Buffer.from(`Python script exited with code ${code}`).toString('base64');
       console.error(message);
       sendEventToClients(message);
       return res.status(500).send('Error processing image');
