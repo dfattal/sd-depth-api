@@ -26,7 +26,7 @@ def process_image(depth_image_bytes):
     depth_image = Image.open(io.BytesIO(depth_image_bytes)).convert("RGB")
     controlnet_conditioning_scale = 0.5
 
-    prompt = ""
+    prompt = "realistic photography"
     images = pipe(
         prompt, image=depth_image, num_inference_steps=30, controlnet_conditioning_scale=controlnet_conditioning_scale,
     ).images
